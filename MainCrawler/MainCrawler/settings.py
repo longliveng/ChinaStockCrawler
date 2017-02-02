@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for main_crawler project
+# Scrapy settings for MainCrawler project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,20 +9,20 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'main_crawler'
+BOT_NAME = 'MainCrawler'
 
-SPIDER_MODULES = ['main_crawler.spiders']
-NEWSPIDER_MODULE = 'main_crawler.spiders'
+SPIDER_MODULES = ['MainCrawler.spiders']
+NEWSPIDER_MODULE = 'MainCrawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+CONCURRENT_REQUESTS = 5
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 5
+#CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -47,13 +47,13 @@ CONCURRENT_REQUESTS = 5
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'main_crawler.middlewares.MainCrawlerSpiderMiddleware': 543,
+#    'MainCrawler.middlewares.MaincrawlerSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'main_crawler.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'MainCrawler.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ CONCURRENT_REQUESTS = 5
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'main_crawler.pipelines.SomePipeline': 300,
+#    'MainCrawler.pipelines.SomePipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
