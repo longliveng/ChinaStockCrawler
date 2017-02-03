@@ -59,7 +59,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data')
+		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001')
 		resultStockList=self.myCursor.fetchall()
 		# for stocklistkey in range(len(resultStockList)):
 		# 	print(resultStockList[stocklistkey])
@@ -86,11 +86,41 @@ class StockexchangeSpider(scrapy.Spider):
 
 	# 数据源: http://www.szse.cn/main/marketdata/tjsj/jyjg/
 	def generateShenzhen(self):
-		print('hehe')
+		shenzhenFormdata={
+			"ACTIONID":"7",
+			"AJAX":"AJAX-TRUE",
+			"CATALOGID":"1804",
+			"TABKEY":"tab1",
+			"REPORT_ACTION":"search",
+			"txtDate":"",
+		}
+		resultUrl=[]
+
+		self.myCursor=self.dbpool.cursor()
+		
+		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 399001 LIMIT 5')
+		resultStockList=self.myCursor.fetchall()
+
+		print('-----------shenzhen---------------')
+		for stocklistkey in range(len(resultStockList)):
+			# update_time resultStockList[stocklistkey][14],total_value resultStockList[stocklistkey][12]
+			if resultStockList[stocklistkey][14] is None:
+				tmpUpdateTime=0
+			else:
+				tmpUpdateTime=resultStockList[stocklistkey][14]
+
+			gapTimestamp=int(time.time())-tmpUpdateTime
+			if resultStockList[stocklistkey][14] is None or gapTimestamp>259200 or resultStockList[stocklistkey][12]<0:
+				urlShenzhen='http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.8219'
+				# TODO 请求错误处理
+				responsesss = scrapy.FormRequest(url=urlShenzhen,callback=self.indexDayParseShenzhen,formdata=shenzhenFormdata)
+				resultUrl.append(responsesss)
+
+		return  resultUrl
 
 	def indexDayParseShanghai(self,response):
 		print('-----------------indexDayParseShanghai------------------------')
-		resultItem=IndexDayItem()
+		# resultItem=IndexDayItem()
 
 		resJson=str(response.text[19:-1])
 		resDict=json.loads(resJson)
@@ -117,6 +147,8 @@ class StockexchangeSpider(scrapy.Spider):
 		# yield resultItem
 
 	def indexDayParseShenzhen(self,response):
+		print('-----------------indexDayParseShenzhen--!!------------------------')
+
 		# for quote in response.css('div.quote'):
 		#     yield {
 		#         'text': quote.css('span.text::text').extract_first(),
