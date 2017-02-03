@@ -59,7 +59,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data LIMIT 5')
+		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data')
 		resultStockList=self.myCursor.fetchall()
 		# for stocklistkey in range(len(resultStockList)):
 		# 	print(resultStockList[stocklistkey])
