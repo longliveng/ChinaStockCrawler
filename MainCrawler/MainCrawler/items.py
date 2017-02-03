@@ -8,7 +8,6 @@
 import scrapy
 
 
-class MaincrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class IndexDayItem(scrapy.Item):
+    total_value     = scrapy.Field()
+    backup     = scrapy.Field()
