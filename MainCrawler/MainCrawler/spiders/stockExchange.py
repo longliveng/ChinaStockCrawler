@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import sys
+# import sys
 import time
 import MySQLdb
 import json
@@ -43,8 +43,7 @@ class StockexchangeSpider(scrapy.Spider):
 			# self.generateShanghai()
 			# self.generateShenzhen()
 			pass
-		print '---aaaaaaaaaaaaa-----------------------'
-		print resultUrl
+
 		return resultUrl
 
 
@@ -98,7 +97,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 399001 LIMIT 5')
+		self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 399001')
 		resultStockList=self.myCursor.fetchall()
 
 		print('-----------shenzhen---------------')
@@ -113,6 +112,9 @@ class StockexchangeSpider(scrapy.Spider):
 			if resultStockList[stocklistkey][14] is None or gapTimestamp>259200 or resultStockList[stocklistkey][12]<0:
 				urlShenzhen='http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.8219'
 				# TODO 请求错误处理
+				# print(str(resultStockList[stocklistkey][2]))
+				shenzhenFormdata['txtDate']=str(resultStockList[stocklistkey][2])
+				# shenzhenFormdata['txtDate']='2017-02-03'
 				responsesss = scrapy.FormRequest(url=urlShenzhen,callback=self.indexDayParseShenzhen,formdata=shenzhenFormdata)
 				resultUrl.append(responsesss)
 
@@ -126,6 +128,8 @@ class StockexchangeSpider(scrapy.Spider):
 		resDict=json.loads(resJson)
 		if resDict['result'][2]['marketValue']=='':
 			resDict['result'][2]['marketValue']=0
+		else:
+			resDict['result'][2]['marketValue']=resDict['result'][2]['marketValue']*100000000
 
 		currentStamp=str(int(time.time()))
 		# print resJson
@@ -144,16 +148,30 @@ class StockexchangeSpider(scrapy.Spider):
 		# resultItem['total_value']=resDict['result'][2]['marketValue']
 		# resultItem['backup']=resJson
 		# print resultItem
+		# 
 		# yield resultItem
 
 	def indexDayParseShenzhen(self,response):
 		print('-----------------indexDayParseShenzhen--!!------------------------')
 
-		# for quote in response.css('div.quote'):
-		#     yield {
-		#         'text': quote.css('span.text::text').extract_first(),
-		#         'author': quote.css('span small::text').extract_first(),
-		#         'tags': quote.css('div.tags a.tag::text').extract(),
-		#     }
-		# print response.text
-		pass
+		currDate = response.xpath('//input[@id="1804_gid_tab1_con_txtDate"]/@value').extract()
+		currDate = str(currDate[0])
+
+		resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[2]/td[6]/text()').extract()
+		
+		print '~~~~~~~~~~today is '+currDate
+		
+		if resultMarketValue==[]:
+			resultMarketValue=0
+		else:
+			resultMarketValue=resultMarketValue[0]
+			resultMarketValue=resultMarketValue.replace(',','')
+
+		#过滤 html,pure SB
+		responseText=response.text.replace('\'','\"')
+
+		currentStamp=str(int(time.time()))
+		updateSql="UPDATE `index_day_historical_data` SET `total_value` = '"+str(resultMarketValue)+"',`backup` = '"+str(responseText)+"',`update_time` = "+currentStamp+" WHERE `type` = 399001 and `date`='"+currDate+"'"
+		# print updateSql
+		# exit()
+		self.myCursor.execute(updateSql)

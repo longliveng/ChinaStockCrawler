@@ -1,0 +1,243 @@
+<table cellspacing='1' width="800" align="center">
+    <tr>
+        <td align="left">
+            <table class="cls-search-table-common cls-search-table" width="800">
+                <tbody>
+                    <tr>
+                        <td width="6" align="left" valign="top" background="/szseWeb/common/images/search05.gif">
+                            <img src="/szseWeb/common/images/search01.gif" height="6" width="6" />
+                        </td>
+                        <td rowspan="3">
+                            <table border='0'>
+                                <tr>
+                                    <td width="2">&#160;</td>
+                                    <td width="18">
+                                        <div class="cls_search_class1" />
+                                    </td>
+                                    <td>
+                                        <span class="cls_search_class2">信息查询</span>
+                                    </td>
+                                    <td width="1">&#160;</td>
+                                    <td width="5">
+                                        <div class="cls_search_class3" />
+                                    </td>
+                                    <td align='left'>
+                                        <span style="margin-left:5px;"></span>
+                                        <input value="2017-02-03" type="text" name="txtDate" id="1804_gid_tab1_con_txtDate" onkeypress="doReportInputboxClick(event,'1804','tab1')" class='cls-datepicker' onblur="blurJD()" onClick="getcalendar(this,'yyyy-mm-dd',event)" onFocus="this.select();" title="格式:YYYY-MM-DD" />
+                                        <input type='text' name='txtIgnore' style='display:none'>
+                                            <span style="margin-left:10px;" />
+                                            <input type="button" id="1804_tab1_btn" value="" class="cls_search_button" onclick="submit1804tab1()" />
+                                            <td width="6" align="right" valign="top" background="/szseWeb/common/images/search06.gif">
+                                                <img src="/szseWeb/common/images/search03.gif" height="6" width="6" />
+                                            </td>
+                                            <tr>
+                                                <td background="/szseWeb/common/images/search05.gif"></td>
+                                                <td background="/szseWeb/common/images/search06.gif"></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="6" align="left" valign="bottom" background="/szseWeb/common/images/search05.gif">
+                                                    <img src="/szseWeb/common/images/search02.gif" height="6" width="6" />
+                                                </td>
+                                                <td width="6" align="right" valign="bottom" background="/szseWeb/common/images/search06.gif">
+                                                    <img src="/szseWeb/common/images/search04.gif" height="6" width="6" />
+                                                </td>
+                                            </tr>
+                                            <table class='cls-title-table-common cls-title-table' bgcolor='#ffffff' width="800">
+                                                <tr>
+                                                    <td align='left' class='cls-title-td'>
+                                                    <div style='text-align:center;display:inline;width:110px;' class='cls-title-selected'>证券类别统计</div>
+                                                    <div style='text-align:center;display:inline;width:120px;' class='cls-title-deselected' onclick="switchTabItem('1804','tab2')">股票行业统计</div>&#160;&#160;&#160;
+                                                    <span class='cls-subtitle'>2017-02-03</span>
+                                                    <span id='MESSAGE_ID'>&#160;</span></td>
+                                                    <td>&#160;</td>
+                                                    <td align='right' width='60px' valign='bottom'>
+                                                        <a href="/szseWeb/ShowReport.szse?SHOWTYPE=excel&amp;CATALOGID=1804&amp;txtDate=2017-02-03&amp;ENCODE=1&amp;TABKEY=tab1">下载&#160;
+                                                        <img style='VERTICAL-ALIGN: middle; padding-bottom:5px; border=' src='/szseWeb/common/images/excel.gif'>
+                                                            <table bgcolor='#E0E0E0' id="REPORTID_tab1" class='cls-data-table-common cls-data-table' border="0" cellspacing='1' width="800">
+                                                                <tr>
+                                                                    <th width='120px' bgcolor='#cde1fe'>证券类别</th>
+                                                                    <th width='80px' bgcolor='#cde1fe'>数量(只)</th>
+                                                                    <th width='120px' bgcolor='#cde1fe'>成交金额(元)</th>
+                                                                    <th width='80px' bgcolor='#cde1fe'>成交量</th>
+                                                                    <th width='100px' bgcolor='#cde1fe'>总股本</th>
+                                                                    <th width='100px' bgcolor='#cde1fe'>总市值</th>
+                                                                    <th width='100px' bgcolor='#cde1fe'>流通股本</th>
+                                                                    <th width='100px' bgcolor='#cde1fe'>流通市值</th>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>股票</td>
+                                                                    <td width='80px' align='right'>1935</td>
+                                                                    <td width='120px' align='right'>132,320,567,468</td>
+                                                                    <td width='80px' align='right'>9,892,462,410</td>
+                                                                    <td width='100px' align='right'>1,633,560,934,227</td>
+                                                                    <td width='100px' align='right'>22,231,484,679,644</td>
+                                                                    <td width='100px' align='right'>1,191,787,982,595</td>
+                                                                    <td width='100px' align='right'>15,230,486,130,658</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;主板A股</td>
+                                                                    <td width='80px' align='right'>466</td>
+                                                                    <td width='120px' align='right'>41,439,809,080</td>
+                                                                    <td width='80px' align='right'>4,466,653,501</td>
+                                                                    <td width='100px' align='right'>700,653,102,078</td>
+                                                                    <td width='100px' align='right'>7,377,125,825,873</td>
+                                                                    <td width='100px' align='right'>551,963,844,032</td>
+                                                                    <td width='100px' align='right'>5,842,554,990,624</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;主板B股</td>
+                                                                    <td width='80px' align='right'>49</td>
+                                                                    <td width='120px' align='right'>206,643,816</td>
+                                                                    <td width='80px' align='right'>39,656,483</td>
+                                                                    <td width='100px' align='right'>12,818,356,288</td>
+                                                                    <td width='100px' align='right'>82,782,945,419</td>
+                                                                    <td width='100px' align='right'>12,689,656,659</td>
+                                                                    <td width='100px' align='right'>81,735,830,938</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;中小板</td>
+                                                                    <td width='80px' align='right'>830</td>
+                                                                    <td width='120px' align='right'>52,337,933,920</td>
+                                                                    <td width='80px' align='right'>3,485,669,045</td>
+                                                                    <td width='100px' align='right'>654,125,129,384</td>
+                                                                    <td width='100px' align='right'>9,766,307,377,818</td>
+                                                                    <td width='100px' align='right'>453,292,396,535</td>
+                                                                    <td width='100px' align='right'>6,326,198,697,007</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;创业板</td>
+                                                                    <td width='80px' align='right'>590</td>
+                                                                    <td width='120px' align='right'>38,336,180,652</td>
+                                                                    <td width='80px' align='right'>1,900,483,381</td>
+                                                                    <td width='100px' align='right'>265,964,346,477</td>
+                                                                    <td width='100px' align='right'>5,005,268,530,533</td>
+                                                                    <td width='100px' align='right'>173,842,085,369</td>
+                                                                    <td width='100px' align='right'>2,979,996,612,090</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>基金</td>
+                                                                    <td width='80px' align='right'>511</td>
+                                                                    <td width='120px' align='right'>2,698,078,686</td>
+                                                                    <td width='80px' align='right'>3,259,428,459</td>
+                                                                    <td width='100px' align='right'>195,653,737,212</td>
+                                                                    <td width='100px' align='right'>193,221,847,841</td>
+                                                                    <td width='100px' align='right'>195,574,170,230</td>
+                                                                    <td width='100px' align='right'>193,142,018,695</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;LOF</td>
+                                                                    <td width='80px' align='right'>204</td>
+                                                                    <td width='120px' align='right'>121,713,173</td>
+                                                                    <td width='80px' align='right'>149,412,942</td>
+                                                                    <td width='100px' align='right'>22,537,613,079</td>
+                                                                    <td width='100px' align='right'>22,052,500,408</td>
+                                                                    <td width='100px' align='right'>22,493,046,097</td>
+                                                                    <td width='100px' align='right'>22,006,056,262</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;ETF</td>
+                                                                    <td width='80px' align='right'>48</td>
+                                                                    <td width='120px' align='right'>540,550,660</td>
+                                                                    <td width='80px' align='right'>85,507,661</td>
+                                                                    <td width='100px' align='right'>20,625,517,456</td>
+                                                                    <td width='100px' align='right'>44,133,199,744</td>
+                                                                    <td width='100px' align='right'>20,625,517,456</td>
+                                                                    <td width='100px' align='right'>44,133,199,744</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;分级基金</td>
+                                                                    <td width='80px' align='right'>256</td>
+                                                                    <td width='120px' align='right'>2,017,374,112</td>
+                                                                    <td width='80px' align='right'>3,005,435,826</td>
+                                                                    <td width='100px' align='right'>147,159,800,277</td>
+                                                                    <td width='100px' align='right'>121,939,439,840</td>
+                                                                    <td width='100px' align='right'>147,159,800,277</td>
+                                                                    <td width='100px' align='right'>121,939,439,840</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;封闭式基金</td>
+                                                                    <td width='80px' align='right'>3</td>
+                                                                    <td width='120px' align='right'>18,440,740</td>
+                                                                    <td width='80px' align='right'>19,072,030</td>
+                                                                    <td width='100px' align='right'>5,330,806,400</td>
+                                                                    <td width='100px' align='right'>5,096,707,850</td>
+                                                                    <td width='100px' align='right'>5,295,806,400</td>
+                                                                    <td width='100px' align='right'>5,063,322,850</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>债券</td>
+                                                                    <td width='80px' align='right'>2067</td>
+                                                                    <td width='120px' align='right'>68,743,814,101</td>
+                                                                    <td width='80px' align='right'>687,394,476</td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;国债</td>
+                                                                    <td width='80px' align='right'>1621</td>
+                                                                    <td width='120px' align='right'>493,509</td>
+                                                                    <td width='80px' align='right'>4,960</td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;公司债</td>
+                                                                    <td width='80px' align='right'>414</td>
+                                                                    <td width='120px' align='right'>156,395,536</td>
+                                                                    <td width='80px' align='right'>1,549,297</td>
+                                                                    <td width='100px' align='right'>437,687,585,100</td>
+                                                                    <td width='100px' align='right'>442,239,479,429</td>
+                                                                    <td width='100px' align='right'>437,687,585,100</td>
+                                                                    <td width='100px' align='right'>442,239,479,429</td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;企业债</td>
+                                                                    <td width='80px' align='right'>15</td>
+                                                                    <td width='120px' align='right'>38,233,650</td>
+                                                                    <td width='80px' align='right'>384,180</td>
+                                                                    <td width='100px' align='right'>26,048,000,000</td>
+                                                                    <td width='100px' align='right'>26,311,155,000</td>
+                                                                    <td width='100px' align='right'>11,375,815,900</td>
+                                                                    <td width='100px' align='right'>11,533,484,971</td>
+                                                                </tr>
+                                                                <tr bgcolor='#ffffff'>
+                                                                    <td width='120px' align='left'>&#160;&#160;债券回购</td>
+                                                                    <td width='80px' align='right'>9</td>
+                                                                    <td width='120px' align='right'>68,506,848,000</td>
+                                                                    <td width='80px' align='right'>685,068,480</td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                    <td width='100px' align='right'></td>
+                                                                </tr>
+                                                                <tr bgcolor='#F8F8F8'>
+                                                                    <td width='120px' align='left'>&#160;&#160;可转换债券</td>
+                                                                    <td width='80px' align='right'>8</td>
+                                                                    <td width='120px' align='right'>41,843,405</td>
+                                                                    <td width='80px' align='right'>387,559</td>
+                                                                    <td width='100px' align='right'>8,707,496,100</td>
+                                                                    <td width='100px' align='right'>9,892,197,752</td>
+                                                                    <td width='100px' align='right'>8,707,496,100</td>
+                                                                    <td width='100px' align='right'>9,892,197,752</td>
+                                                                </tr>
+                                                            </table>
+                                                            <span style="display:none" id="szseWebReport_pageinfo_1804" catalogid="1804" tabkeys="tab1;" report_action="search" url="/szseWeb/FrontController.szse?ACTIONID=7&amp;AJAX=AJAX-TRUE&amp;CATALOGID=1804&amp;txtDate=2017-02-03&amp;TABKEY=tab1"></span>
+                                                        </img></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </input>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
