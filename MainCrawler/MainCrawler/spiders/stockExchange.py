@@ -58,7 +58,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		loopCount=self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001')
+		self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001')
 		resultStockList=self.myCursor.fetchall()
 		# for stocklistkey in range(len(resultStockList)):
 		# 	print(resultStockList[stocklistkey])
@@ -129,6 +129,7 @@ class StockexchangeSpider(scrapy.Spider):
 		if resDict['result'][2]['marketValue']=='':
 			resDict['result'][2]['marketValue']=0
 		else:
+			resDict['result'][2]['marketValue']=float(resDict['result'][2]['marketValue'])
 			resDict['result'][2]['marketValue']=resDict['result'][2]['marketValue']*100000000
 
 		currentStamp=str(int(time.time()))
