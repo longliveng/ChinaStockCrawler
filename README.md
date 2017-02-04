@@ -13,7 +13,7 @@ urlShenzhen = 'http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.4397416
 
 ## command
 
-scrapy crawl stockExchange -a market=shanghai 
+scrapy crawl stockExchange -a market=shanghai  
 scrapy crawl stockExchange -a market=shenzhen
 
 ##about doc
