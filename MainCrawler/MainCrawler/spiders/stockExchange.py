@@ -126,17 +126,17 @@ class StockexchangeSpider(scrapy.Spider):
 
 		resJson=str(response.text[19:-1])
 		resDict=json.loads(resJson)
-		if resDict['result'][2]['marketValue']=='':
-			resDict['result'][2]['marketValue']=0
+		if resDict['result'][2]['marketValue1']=='':
+			resDict['result'][2]['marketValue1']=0
 		else:
-			resDict['result'][2]['marketValue']=float(resDict['result'][2]['marketValue'])
-			resDict['result'][2]['marketValue']=resDict['result'][2]['marketValue']*100000000
+			resDict['result'][2]['marketValue1']=float(resDict['result'][2]['marketValue1'])
+			resDict['result'][2]['marketValue1']=resDict['result'][2]['marketValue1']*100000000
 
 		currentStamp=str(int(time.time()))
 		# print resJson
 		# exit()
 		
-		updateSql="UPDATE `index_day_historical_data` SET `total_value` = "+str(resDict['result'][2]['marketValue'])+",`backup` = '"+resJson+"',`update_time` = "+currentStamp+" WHERE `type` = 000001 and `date`='"+str(resDict['searchDate'])+"'"
+		updateSql="UPDATE `index_day_historical_data` SET `total_value` = "+str(resDict['result'][2]['marketValue1'])+",`backup` = '"+resJson+"',`update_time` = "+currentStamp+" WHERE `type` = 000001 and `date`='"+str(resDict['searchDate'])+"'"
 		# print updateSql
 		# exit();
 		self.myCursor.execute(updateSql)
