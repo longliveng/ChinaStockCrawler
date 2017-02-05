@@ -88,10 +88,10 @@ class StockexchangeSpider(scrapy.Spider):
 		shenzhenFormdata={
 			"ACTIONID":"7",
 			"AJAX":"AJAX-TRUE",
-			"CATALOGID":"1804",
+			"CATALOGID":"1803",
 			"TABKEY":"tab1",
 			"REPORT_ACTION":"search",
-			"txtDate":"",
+			"txtQueryDate":"",
 		}
 		resultUrl=[]
 
@@ -110,11 +110,11 @@ class StockexchangeSpider(scrapy.Spider):
 
 			gapTimestamp=int(time.time())-tmpUpdateTime
 			if resultStockList[stocklistkey][14] is None or gapTimestamp>259200 or resultStockList[stocklistkey][12]<0:
-				urlShenzhen='http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.8219'
+				urlShenzhen='http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.5798621223025'
 				# TODO 请求错误处理
 				# print(str(resultStockList[stocklistkey][2]))
-				shenzhenFormdata['txtDate']=str(resultStockList[stocklistkey][2])
-				# shenzhenFormdata['txtDate']='2017-02-03'
+				shenzhenFormdata['txtQueryDate']=str(resultStockList[stocklistkey][2])
+				# shenzhenFormdata['txtQueryDate']='2005-04-13'
 				responsesss = scrapy.FormRequest(url=urlShenzhen,callback=self.indexDayParseShenzhen,formdata=shenzhenFormdata)
 				resultUrl.append(responsesss)
 
@@ -154,11 +154,14 @@ class StockexchangeSpider(scrapy.Spider):
 
 	def indexDayParseShenzhen(self,response):
 		print('-----------------indexDayParseShenzhen--!!------------------------')
+		# old
+		# currDate = response.xpath('//input[@id="1804_gid_tab1_con_txtDate"]/@value').extract()
+		# currDate = str(currDate[0])
+		# resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[2]/td[6]/text()').extract()
 
-		currDate = response.xpath('//input[@id="1804_gid_tab1_con_txtDate"]/@value').extract()
+		currDate = response.xpath('//input[@id="1803_gid_tab1_con_txtQueryDate"]/@value').extract()
 		currDate = str(currDate[0])
-
-		resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[2]/td[6]/text()').extract()
+		resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[9]/td[2]/text()').extract()
 		
 		print '~~~~~~~~~~today is '+currDate
 		

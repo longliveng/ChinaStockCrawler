@@ -1,7 +1,7 @@
-<table cellspacing='1' width="800" align="center">
+<table cellspacing='1' width="100%" align="center">
     <tr>
         <td align="left">
-            <table class="cls-search-table-common cls-search-table" width="800">
+            <table class="cls-search-table-common cls-search-table" width="100%">
                 <tbody>
                     <tr>
                         <td width="6" align="left" valign="top" background="/szseWeb/common/images/search05.gif">
@@ -23,10 +23,10 @@
                                     </td>
                                     <td align='left'>
                                         <span style="margin-left:5px;"></span>
-                                        <input value="2017-02-03" type="text" name="txtDate" id="1804_gid_tab1_con_txtDate" onkeypress="doReportInputboxClick(event,'1804','tab1')" class='cls-datepicker' onblur="blurJD()" onClick="getcalendar(this,'yyyy-mm-dd',event)" onFocus="this.select();" title="格式:YYYY-MM-DD" />
+                                        <input value="2005-04-13" type="text" name="txtQueryDate" id="1803_gid_tab1_con_txtQueryDate" onkeypress="doReportInputboxClick(event,'1803','tab1')" class='cls-datepicker' onblur="blurJD()" onClick="getcalendar(this,'yyyy-mm-dd',event)" onFocus="this.select();" title="格式:YYYY-MM-DD" />
                                         <input type='text' name='txtIgnore' style='display:none'>
                                             <span style="margin-left:10px;" />
-                                            <input type="button" id="1804_tab1_btn" value="" class="cls_search_button" onclick="submit1804tab1()" />
+                                            <input type="button" id="1803_tab1_btn" value="" class="cls_search_button" onclick="submit1803tab1()" />
                                             <td width="6" align="right" valign="top" background="/szseWeb/common/images/search06.gif">
                                                 <img src="/szseWeb/common/images/search03.gif" height="6" width="6" />
                                             </td>
@@ -42,190 +42,134 @@
                                                     <img src="/szseWeb/common/images/search04.gif" height="6" width="6" />
                                                 </td>
                                             </tr>
-                                            <table class='cls-title-table-common cls-title-table' bgcolor='#ffffff' width="800">
+                                            <table class='cls-title-table-common cls-title-table' bgcolor='#ffffff' width="100%">
                                                 <tr>
                                                     <td align='left' class='cls-title-td'>
-                                                    <div style='text-align:center;display:inline;width:110px;' class='cls-title-selected'>证券类别统计</div>
-                                                    <div style='text-align:center;display:inline;width:120px;' class='cls-title-deselected' onclick="switchTabItem('1804','tab2')">股票行业统计</div>&#160;&#160;&#160;
-                                                    <span class='cls-subtitle'>2017-02-03</span>
+                                                    <div style='text-align:center;display:inline;width:100px;' class='cls-title-selected'>深圳市场</div>
+                                                    <div style='text-align:center;display:inline;width:100px;' class='cls-title-deselected' onclick="switchTabItem('1803','tab2')">深市主板</div>
+                                                    <div style='text-align:center;display:inline;width:100px;' class='cls-title-deselected' onclick="switchTabItem('1803','tab3')">中小企业板</div>
+                                                    <div style='text-align:center;display:inline;width:100px;' class='cls-title-deselected' onclick="switchTabItem('1803','tab4')">创业板</div>&#160;&#160;&#160;
+                                                    <span class='cls-subtitle'>2005-04-13</span>
                                                     <span id='MESSAGE_ID'>&#160;</span></td>
                                                     <td>&#160;</td>
                                                     <td align='right' width='60px' valign='bottom'>
-                                                        <a href="/szseWeb/ShowReport.szse?SHOWTYPE=excel&amp;CATALOGID=1804&amp;txtDate=2017-02-03&amp;ENCODE=1&amp;TABKEY=tab1">下载&#160;
+                                                        <a href="/szseWeb/ShowReport.szse?SHOWTYPE=excel&amp;CATALOGID=1803&amp;txtQueryDate=2005-04-13&amp;ENCODE=1&amp;TABKEY=tab1">下载&#160;
                                                         <img style='VERTICAL-ALIGN: middle; padding-bottom:5px; border=' src='/szseWeb/common/images/excel.gif'>
-                                                            <table bgcolor='#E0E0E0' id="REPORTID_tab1" class='cls-data-table-common cls-data-table' border="0" cellspacing='1' width="800">
+                                                            <table bgcolor='#E0E0E0' id="REPORTID_tab1" class='cls-data-table-common cls-data-table' border="0" cellspacing='1' width="100%">
                                                                 <tr>
-                                                                    <th width='120px' bgcolor='#cde1fe'>证券类别</th>
-                                                                    <th width='80px' bgcolor='#cde1fe'>数量(只)</th>
-                                                                    <th width='120px' bgcolor='#cde1fe'>成交金额(元)</th>
-                                                                    <th width='80px' bgcolor='#cde1fe'>成交量</th>
-                                                                    <th width='100px' bgcolor='#cde1fe'>总股本</th>
-                                                                    <th width='100px' bgcolor='#cde1fe'>总市值</th>
-                                                                    <th width='100px' bgcolor='#cde1fe'>流通股本</th>
-                                                                    <th width='100px' bgcolor='#cde1fe'>流通市值</th>
+                                                                    <th bgcolor='#cde1fe'>指标名称</th>
+                                                                    <th bgcolor='#cde1fe'>本日数值</th>
+                                                                    <th bgcolor='#cde1fe'>比上日增减</th>
+                                                                    <th bgcolor='#cde1fe'>幅度%</th>
+                                                                    <th bgcolor='#cde1fe'>本年最高</th>
+                                                                    <th bgcolor='#cde1fe'>最高值日期</th>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>股票</td>
-                                                                    <td width='80px' align='right'>1935</td>
-                                                                    <td width='120px' align='right'>132,320,567,468</td>
-                                                                    <td width='80px' align='right'>9,892,462,410</td>
-                                                                    <td width='100px' align='right'>1,633,560,934,227</td>
-                                                                    <td width='100px' align='right'>22,231,484,679,644</td>
-                                                                    <td width='100px' align='right'>1,191,787,982,595</td>
-                                                                    <td width='100px' align='right'>15,230,486,130,658</td>
+                                                                    <td align='left'>深证成指</td>
+                                                                    <td align='right'>3,371.49</td>
+                                                                    <td align='right'>60.68</td>
+                                                                    <td align='right'>1.83</td>
+                                                                    <td align='right'>3,464.66</td>
+                                                                    <td align='center'>2005-03-09</td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;主板A股</td>
-                                                                    <td width='80px' align='right'>466</td>
-                                                                    <td width='120px' align='right'>41,439,809,080</td>
-                                                                    <td width='80px' align='right'>4,466,653,501</td>
-                                                                    <td width='100px' align='right'>700,653,102,078</td>
-                                                                    <td width='100px' align='right'>7,377,125,825,873</td>
-                                                                    <td width='100px' align='right'>551,963,844,032</td>
-                                                                    <td width='100px' align='right'>5,842,554,990,624</td>
+                                                                    <td align='left'>深证综指</td>
+                                                                    <td align='right'>315.61</td>
+                                                                    <td align='right'>6.75</td>
+                                                                    <td align='right'>2.19</td>
+                                                                    <td align='right'>333.28</td>
+                                                                    <td align='center'>2005-03-09</td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;主板B股</td>
-                                                                    <td width='80px' align='right'>49</td>
-                                                                    <td width='120px' align='right'>206,643,816</td>
-                                                                    <td width='80px' align='right'>39,656,483</td>
-                                                                    <td width='100px' align='right'>12,818,356,288</td>
-                                                                    <td width='100px' align='right'>82,782,945,419</td>
-                                                                    <td width='100px' align='right'>12,689,656,659</td>
-                                                                    <td width='100px' align='right'>81,735,830,938</td>
+                                                                    <td align='left'>上市公司数</td>
+                                                                    <td align='right'>538.00</td>
+                                                                    <td align='right'>0.00</td>
+                                                                    <td align='right'>0.00</td>
+                                                                    <td align='right'></td>
+                                                                    <td align='center'></td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;中小板</td>
-                                                                    <td width='80px' align='right'>830</td>
-                                                                    <td width='120px' align='right'>52,337,933,920</td>
-                                                                    <td width='80px' align='right'>3,485,669,045</td>
-                                                                    <td width='100px' align='right'>654,125,129,384</td>
-                                                                    <td width='100px' align='right'>9,766,307,377,818</td>
-                                                                    <td width='100px' align='right'>453,292,396,535</td>
-                                                                    <td width='100px' align='right'>6,326,198,697,007</td>
+                                                                    <td align='left'>上市证券数</td>
+                                                                    <td align='right'>677</td>
+                                                                    <td align='right'>0</td>
+                                                                    <td align='right'>0.00</td>
+                                                                    <td align='right'></td>
+                                                                    <td align='center'></td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;创业板</td>
-                                                                    <td width='80px' align='right'>590</td>
-                                                                    <td width='120px' align='right'>38,336,180,652</td>
-                                                                    <td width='80px' align='right'>1,900,483,381</td>
-                                                                    <td width='100px' align='right'>265,964,346,477</td>
-                                                                    <td width='100px' align='right'>5,005,268,530,533</td>
-                                                                    <td width='100px' align='right'>173,842,085,369</td>
-                                                                    <td width='100px' align='right'>2,979,996,612,090</td>
+                                                                    <td align='left'>市场总成交金额（元）</td>
+                                                                    <td align='right'>7,512,229,860.24</td>
+                                                                    <td align='right'>1,872,128,669.47</td>
+                                                                    <td align='right'>33.19</td>
+                                                                    <td align='right'>14,099,028,222.32</td>
+                                                                    <td align='center'>2005-08-18</td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>基金</td>
-                                                                    <td width='80px' align='right'>511</td>
-                                                                    <td width='120px' align='right'>2,698,078,686</td>
-                                                                    <td width='80px' align='right'>3,259,428,459</td>
-                                                                    <td width='100px' align='right'>195,653,737,212</td>
-                                                                    <td width='100px' align='right'>193,221,847,841</td>
-                                                                    <td width='100px' align='right'>195,574,170,230</td>
-                                                                    <td width='100px' align='right'>193,142,018,695</td>
+                                                                    <td align='left'>股票总股本（股）</td>
+                                                                    <td align='right'>202,226,616,249.00</td>
+                                                                    <td align='right'>356,211,048.00</td>
+                                                                    <td align='right'>0.18</td>
+                                                                    <td align='right'>213,546,569,863.00</td>
+                                                                    <td align='center'>2005-12-29</td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;LOF</td>
-                                                                    <td width='80px' align='right'>204</td>
-                                                                    <td width='120px' align='right'>121,713,173</td>
-                                                                    <td width='80px' align='right'>149,412,942</td>
-                                                                    <td width='100px' align='right'>22,537,613,079</td>
-                                                                    <td width='100px' align='right'>22,052,500,408</td>
-                                                                    <td width='100px' align='right'>22,493,046,097</td>
-                                                                    <td width='100px' align='right'>22,006,056,262</td>
+                                                                    <td align='left'>股票流通股本（股）</td>
+                                                                    <td align='right'>83,353,493,225</td>
+                                                                    <td align='right'>105,176,294</td>
+                                                                    <td align='right'>0.13</td>
+                                                                    <td align='right'>93,429,750,956</td>
+                                                                    <td align='center'>2005-12-30</td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;ETF</td>
-                                                                    <td width='80px' align='right'>48</td>
-                                                                    <td width='120px' align='right'>540,550,660</td>
-                                                                    <td width='80px' align='right'>85,507,661</td>
-                                                                    <td width='100px' align='right'>20,625,517,456</td>
-                                                                    <td width='100px' align='right'>44,133,199,744</td>
-                                                                    <td width='100px' align='right'>20,625,517,456</td>
-                                                                    <td width='100px' align='right'>44,133,199,744</td>
+                                                                    <td align='left'>股票总市值（元）</td>
+                                                                    <td align='right'>1,106,850,746,956</td>
+                                                                    <td align='right'>23,603,621,751</td>
+                                                                    <td align='right'>2.18</td>
+                                                                    <td align='right'>1,166,827,907,886</td>
+                                                                    <td align='center'>2005-03-09</td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;分级基金</td>
-                                                                    <td width='80px' align='right'>256</td>
-                                                                    <td width='120px' align='right'>2,017,374,112</td>
-                                                                    <td width='80px' align='right'>3,005,435,826</td>
-                                                                    <td width='100px' align='right'>147,159,800,277</td>
-                                                                    <td width='100px' align='right'>121,939,439,840</td>
-                                                                    <td width='100px' align='right'>147,159,800,277</td>
-                                                                    <td width='100px' align='right'>121,939,439,840</td>
+                                                                    <td align='left'>股票流通市值（元）</td>
+                                                                    <td align='right'>442,644,451,498.87</td>
+                                                                    <td align='right'>9,203,375,020.85</td>
+                                                                    <td align='right'>2.12</td>
+                                                                    <td align='right'>466,673,089,688.43</td>
+                                                                    <td align='center'>2005-03-09</td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;封闭式基金</td>
-                                                                    <td width='80px' align='right'>3</td>
-                                                                    <td width='120px' align='right'>18,440,740</td>
-                                                                    <td width='80px' align='right'>19,072,030</td>
-                                                                    <td width='100px' align='right'>5,330,806,400</td>
-                                                                    <td width='100px' align='right'>5,096,707,850</td>
-                                                                    <td width='100px' align='right'>5,295,806,400</td>
-                                                                    <td width='100px' align='right'>5,063,322,850</td>
+                                                                    <td align='left'>股票成交金额（元）</td>
+                                                                    <td align='right'>7,224,746,474.90</td>
+                                                                    <td align='right'>1,746,636,083.47</td>
+                                                                    <td align='right'>31.88</td>
+                                                                    <td align='right'>13,771,572,666.71</td>
+                                                                    <td align='center'>2005-08-18</td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>债券</td>
-                                                                    <td width='80px' align='right'>2067</td>
-                                                                    <td width='120px' align='right'>68,743,814,101</td>
-                                                                    <td width='80px' align='right'>687,394,476</td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
+                                                                    <td align='left'>平均股票价格（元）</td>
+                                                                    <td align='right'>5.47</td>
+                                                                    <td align='right'>0.11</td>
+                                                                    <td align='right'>1.99</td>
+                                                                    <td align='right'>5.82</td>
+                                                                    <td align='center'>2005-03-09</td>
                                                                 </tr>
                                                                 <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;国债</td>
-                                                                    <td width='80px' align='right'>1621</td>
-                                                                    <td width='120px' align='right'>493,509</td>
-                                                                    <td width='80px' align='right'>4,960</td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
+                                                                    <td align='left'>股票平均市盈率</td>
+                                                                    <td align='right'>18.70</td>
+                                                                    <td align='right'>0.43</td>
+                                                                    <td align='right'>2.35</td>
+                                                                    <td align='right'>24.68</td>
+                                                                    <td align='center'>2005-01-13</td>
                                                                 </tr>
                                                                 <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;公司债</td>
-                                                                    <td width='80px' align='right'>414</td>
-                                                                    <td width='120px' align='right'>156,395,536</td>
-                                                                    <td width='80px' align='right'>1,549,297</td>
-                                                                    <td width='100px' align='right'>437,687,585,100</td>
-                                                                    <td width='100px' align='right'>442,239,479,429</td>
-                                                                    <td width='100px' align='right'>437,687,585,100</td>
-                                                                    <td width='100px' align='right'>442,239,479,429</td>
-                                                                </tr>
-                                                                <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;企业债</td>
-                                                                    <td width='80px' align='right'>15</td>
-                                                                    <td width='120px' align='right'>38,233,650</td>
-                                                                    <td width='80px' align='right'>384,180</td>
-                                                                    <td width='100px' align='right'>26,048,000,000</td>
-                                                                    <td width='100px' align='right'>26,311,155,000</td>
-                                                                    <td width='100px' align='right'>11,375,815,900</td>
-                                                                    <td width='100px' align='right'>11,533,484,971</td>
-                                                                </tr>
-                                                                <tr bgcolor='#ffffff'>
-                                                                    <td width='120px' align='left'>&#160;&#160;债券回购</td>
-                                                                    <td width='80px' align='right'>9</td>
-                                                                    <td width='120px' align='right'>68,506,848,000</td>
-                                                                    <td width='80px' align='right'>685,068,480</td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                    <td width='100px' align='right'></td>
-                                                                </tr>
-                                                                <tr bgcolor='#F8F8F8'>
-                                                                    <td width='120px' align='left'>&#160;&#160;可转换债券</td>
-                                                                    <td width='80px' align='right'>8</td>
-                                                                    <td width='120px' align='right'>41,843,405</td>
-                                                                    <td width='80px' align='right'>387,559</td>
-                                                                    <td width='100px' align='right'>8,707,496,100</td>
-                                                                    <td width='100px' align='right'>9,892,197,752</td>
-                                                                    <td width='100px' align='right'>8,707,496,100</td>
-                                                                    <td width='100px' align='right'>9,892,197,752</td>
+                                                                    <td align='left'>股票平均换手率</td>
+                                                                    <td align='right'>1.53</td>
+                                                                    <td align='right'>0.36</td>
+                                                                    <td align='right'>30.39</td>
+                                                                    <td align='right'>3.54</td>
+                                                                    <td align='center'>2005-08-18</td>
                                                                 </tr>
                                                             </table>
-                                                            <span style="display:none" id="szseWebReport_pageinfo_1804" catalogid="1804" tabkeys="tab1;" report_action="search" url="/szseWeb/FrontController.szse?ACTIONID=7&amp;AJAX=AJAX-TRUE&amp;CATALOGID=1804&amp;txtDate=2017-02-03&amp;TABKEY=tab1"></span>
+                                                            <span style="display:none" id="szseWebReport_pageinfo_1803" catalogid="1803" tabkeys="tab1;" report_action="search" url="/szseWeb/FrontController.szse?ACTIONID=7&amp;AJAX=AJAX-TRUE&amp;CATALOGID=1803&amp;txtQueryDate=2005-04-13&amp;TABKEY=tab1"></span>
                                                         </img></a>
                                                     </td>
                                                 </tr>
