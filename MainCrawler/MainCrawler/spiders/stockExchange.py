@@ -97,7 +97,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 399001')
+		self.myCursor.execute("SELECT * FROM index_day_historical_data WHERE `type` = 399001 and (`date`='2015-01-22' or `date`='2015-08-27')")
 		resultStockList=self.myCursor.fetchall()
 
 		print('-----------shenzhen---------------')
@@ -161,7 +161,7 @@ class StockexchangeSpider(scrapy.Spider):
 
 		currDate = response.xpath('//input[@id="1803_gid_tab1_con_txtQueryDate"]/@value').extract()
 		currDate = str(currDate[0])
-		resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[9]/td[2]/text()').extract()
+		resultMarketValue=response.xpath(u"//td[.='股票总市值（元）']/../td[2]/text()").extract()
 		
 		print '~~~~~~~~~~today is '+currDate
 		
