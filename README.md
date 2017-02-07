@@ -14,7 +14,9 @@ urlShenzhen = 'http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.4397416
 ## command
 
 scrapy crawl stockExchange -a market=shanghai  
-scrapy crawl stockExchange -a market=shenzhen
+scrapy crawl stockExchange -a market=shenzhen  
+
+scrapy crawl stockExchangeTask  
 
 ##about doc
 一些数据对照，以后可以拿到buckup里的数据。。
