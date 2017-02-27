@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import division  
+from scrapy.mail import MailSender
 import scrapy
 # import sys
 import time,datetime
@@ -11,6 +13,7 @@ from MainCrawler.items import *
 class StockexchangetaskSpider(scrapy.Spider):
 
 	name = "stockExchangeTask"
+	updateDayNum = 5
 	# allowed_domains = ["sfds.com"]
 
 	def aboutMysql(self):
@@ -31,16 +34,17 @@ class StockexchangetaskSpider(scrapy.Spider):
 		# urlShenzhen = 'http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.4397416552090172'
 		self.aboutMysql()
 		self.now=datetime.datetime.now()
-
-		market = getattr(self, 'market', None)
-		# print market
+		# 下面这条取消注释，相当于setting开始日期
+		# self.now=datetime.datetime.strptime('2017-02-21 00:53:28',"%Y-%m-%d %H:%M:%S")
+		self.todayDate=str(self.now.strftime('%Y-%m-%d'))
+		
+		# print type(self.settings['MY_EMAIL'])
+		
 		resultUrl=[]
 
 		resultUrl=self.generateShanghai()
 		resultUrl.extend(self.generateShenzhen())
 
-		print resultUrl
-		# exit()
 		return resultUrl
 
 
@@ -56,12 +60,11 @@ class StockexchangetaskSpider(scrapy.Spider):
 		self.myCursor=self.dbpool.cursor()
 		
 		print('-----------shanghai---------------')
-		for dayKey in range(5):
+		for dayKey in range(self.updateDayNum):
 			gapDay=int(-dayKey)
 			whereDate=self.now + datetime.timedelta(days=gapDay)
 			whereDate=str(whereDate.strftime('%Y-%m-%d'))
-			# whereDate='2015-06-05'
-			# 
+			
 			self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001 and `date`="'+whereDate+'"')
 			# update_time resultStock[stocklistkey][14],total_value resultStock[stocklistkey][12]
 			resultStock=self.myCursor.fetchone()
@@ -98,10 +101,9 @@ class StockexchangetaskSpider(scrapy.Spider):
 		resultUrl=[]
 
 		self.myCursor=self.dbpool.cursor()
-	
 		
 		print('-----------shenzhen---------------')
-		for dayKey in range(5):
+		for dayKey in range(self.updateDayNum):
 			gapDay=int(-dayKey)
 			whereDate=self.now + datetime.timedelta(days=gapDay)
 			whereDate=str(whereDate.strftime('%Y-%m-%d'))
@@ -135,8 +137,11 @@ class StockexchangetaskSpider(scrapy.Spider):
 		# exit()
 		resJson=str(response.text[19:-1])
 		resDict=json.loads(resJson)
+		
+		print '~~~~~~~~~~today is '+str(resDict['searchDate'])
+		
 		if resDict['result'][2]['marketValue1']=='':
-			exit()
+			return
 		else:
 			resDict['result'][2]['marketValue1']=float(resDict['result'][2]['marketValue1'])
 			resDict['result'][2]['marketValue1']=resDict['result'][2]['marketValue1']*100000000
@@ -166,7 +171,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 		print '~~~~~~~~~~today is '+currDate
 		
 		if resultMarketValue==[]:
-			exit()
+			return
 		else:
 			resultMarketValue=resultMarketValue[0]
 			resultMarketValue=resultMarketValue.replace(',','')
@@ -184,3 +189,30 @@ class StockexchangetaskSpider(scrapy.Spider):
 		# print blablaSql
 		# exit()
 		self.myCursor.execute(blablaSql)
+
+	def closed(self,reason):
+		#GDP绝对值 单位(亿元)
+		gdpList={'gdp2016':744127,'gdp2015':676708,'gdp2014':635910,'gdp2013':588018.76,'gdp2012':534123.04,'gdp2011':473104.05,'gdp2010':401512.8,'gdp2009':340902.81,'gdp2008':314045.4,'gdp2007':265810.3,'gdp2006':216314.4,'gdp2005':184937.4,'gdp2004':159878.3,'gdp2003':135822.8,'gdp2002':120332.7,'gdp2001':109655.2,'gdp2000':99214.6,'gdp1999':89677.1,'gdp1998':84402.3,'gdp1997':78973,'gdp1996':71176.6,'gdp1995':60793.7,'gdp1994':48197.9,'gdp1993':35333.9,'gdp1992':26923.5,'gdp1991':21781.5}
+
+		self.myCursor.execute("SELECT * FROM stock_gdp_ratios WHERE `date`='"+self.todayDate+"'")
+		resultStockRecord=self.myCursor.fetchone()
+		
+		self.myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data WHERE `date`='"+self.todayDate+"' group by `date`")
+		resultStockDay=self.myCursor.fetchone()
+
+		gdpListKey='gdp'+str(self.now.year-1)
+		dayStockTotal=int(resultStockDay[1])
+
+		GDPratios=dayStockTotal/(gdpList[gdpListKey]*100000000)
+		valueee=[self.todayDate,GDPratios]
+
+		if resultStockRecord is None:
+			result=self.myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
+		# print '--------------------------------------------------'
+		# print resultStockDay
+		# print type(resultStockDay[1])
+		mailer = MailSender.from_settings(self.settings)
+		title="今日A股证券化率："+str(GDPratios)
+		body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(resultStockDay[1])+"元"
+
+		mailer.send(to=self.settings['SEND_TO_EMAIL'], subject=title, body=body,mimetype="text/html")

@@ -58,7 +58,8 @@ class StockexchangeSpider(scrapy.Spider):
 
 		self.myCursor=self.dbpool.cursor()
 		
-		self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001')
+		self.myCursor.execute("SELECT * FROM index_day_historical_data WHERE `type` = 000001")
+		# self.myCursor.execute('SELECT * FROM index_day_historical_data WHERE `type` = 000001')
 		resultStockList=self.myCursor.fetchall()
 		# for stocklistkey in range(len(resultStockList)):
 		# 	print(resultStockList[stocklistkey])
@@ -98,6 +99,7 @@ class StockexchangeSpider(scrapy.Spider):
 		self.myCursor=self.dbpool.cursor()
 		
 		self.myCursor.execute("SELECT * FROM index_day_historical_data WHERE `type` = 399001")
+		# self.myCursor.execute("SELECT * FROM index_day_historical_data WHERE `type` = 399001")
 		resultStockList=self.myCursor.fetchall()
 
 		print('-----------shenzhen---------------')
