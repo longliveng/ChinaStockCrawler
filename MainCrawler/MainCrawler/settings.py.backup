@@ -28,6 +28,7 @@ CONCURRENT_REQUESTS = 5
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 1.1
+RANDOMIZE_DOWNLOAD_DELAY = True
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -88,3 +89,14 @@ DOWNLOAD_DELAY = 1.1
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+MAIL_FROM = 'ch.com'
+MAIL_HOST = 'smtp.exmail.qq.com'
+MAIL_USER = 'cheom'
+MAIL_PASS = ''
+MAIL_PORT = 465
+MAIL_SSL = True
+MAIL_DEBUG = True
+
+SEND_TO_EMAIL = ['chenyicom','ccom']
