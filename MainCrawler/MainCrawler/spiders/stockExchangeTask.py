@@ -35,7 +35,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 		self.aboutMysql()
 		self.now=datetime.datetime.now()
 		# 下面这条取消注释，相当于setting开始日期
-		# self.now=datetime.datetime.strptime('2017-02-21 00:53:28',"%Y-%m-%d %H:%M:%S")
+		# self.now=datetime.datetime.strptime('1991-04-09 00:53:28',"%Y-%m-%d %H:%M:%S")
 		self.todayDate=str(self.now.strftime('%Y-%m-%d'))
 		
 		# print type(self.settings['MY_EMAIL'])
@@ -56,7 +56,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 			"Connection":"keep-alive"
 		}
 		resultUrl=[]
-
+		
 		self.myCursor=self.dbpool.cursor()
 		
 		print('-----------shanghai---------------')
@@ -199,6 +199,9 @@ class StockexchangetaskSpider(scrapy.Spider):
 		
 		self.myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data WHERE `date`='"+self.todayDate+"' group by `date`")
 		resultStockDay=self.myCursor.fetchone()
+		
+		if resultStockDay is None:
+			return
 
 		gdpListKey='gdp'+str(self.now.year-1)
 		dayStockTotal=int(resultStockDay[1])
@@ -206,11 +209,12 @@ class StockexchangetaskSpider(scrapy.Spider):
 		GDPratios=dayStockTotal/(gdpList[gdpListKey]*100000000)
 		valueee=[self.todayDate,GDPratios]
 
+		if dayStockTotal<=0:
+			return
 		if resultStockRecord is None:
 			result=self.myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
-		# print '--------------------------------------------------'
-		# print resultStockDay
-		# print type(resultStockDay[1])
+			return
+
 		mailer = MailSender.from_settings(self.settings)
 		title="今日A股证券化率："+str(GDPratios)
 		body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(resultStockDay[1])+"元"
