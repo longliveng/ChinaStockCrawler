@@ -213,8 +213,8 @@ class StockexchangetaskSpider(scrapy.Spider):
 			return
 		if resultStockRecord is None:
 			result=self.myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
-			return
 
+		# 发邮件
 		mailer = MailSender.from_settings(self.settings)
 		title="今日A股证券化率："+str(GDPratios)
 		body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(resultStockDay[1])+"元"
