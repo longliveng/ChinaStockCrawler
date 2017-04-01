@@ -216,7 +216,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 
 		# 发邮件
 		mailer = MailSender.from_settings(self.settings)
-		title="今日A股证券化率："+str(GDPratios)
+		title="证券化率："+str(GDPratios)
 		body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(resultStockDay[1])+"元"
 
 		mailer.send(to=self.settings['SEND_TO_EMAIL'], subject=title, body=body,mimetype="text/html")
