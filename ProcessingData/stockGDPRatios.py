@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import division  
-import MySQLdb
+import pymysql
 import sys
-import MySQLdb
 import json
 # import time
 
-dbpool=MySQLdb.connect(
+dbpool=pymysql.connect(
 	host='127.0.0.1',
 	db = 'stock_data',
 	user = 'root',
@@ -24,17 +23,18 @@ myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_da
 # myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data WHERE `date`='2015-01-05' group by `date`")
 resultStockList=myCursor.fetchall()
 for stocklistkey in range(len(resultStockList)):
+	# print(resultStockList[stocklistkey])
+	# exit()
 	gdpListKey='gdp'+str(resultStockList[stocklistkey][0].year-1)
 	dayStockTotal=int(resultStockList[stocklistkey][1])
 	# print type(dayStockTotal)
-	# print type(gdpList[gdpListKey]*100000000)
 	# print dayStockTotal/(gdpList[gdpListKey]*100000000)
 	# print '-------'
 	GDPratios=dayStockTotal/(gdpList[gdpListKey]*100000000)
 	valueee=[resultStockList[stocklistkey][0],GDPratios]
 	
-	print dayStockTotal,gdpList[gdpListKey]
-	print valueee
+	print(gdpList[gdpListKey])
+	print(valueee)
 	
 	result=myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
 	# print '-----------------------'+result

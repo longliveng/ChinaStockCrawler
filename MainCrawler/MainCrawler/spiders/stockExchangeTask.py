@@ -13,7 +13,7 @@ from MainCrawler.items import *
 class StockexchangetaskSpider(scrapy.Spider):
 
 	name = "stockExchangeTask"
-	updateDayNum = 5
+	updateDayNum = 4
 	# allowed_domains = ["sfds.com"]
 
 	def aboutMysql(self):
@@ -35,7 +35,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 		self.aboutMysql()
 		self.now=datetime.datetime.now()
 		# 下面这条取消注释，相当于setting开始日期
-		# self.now=datetime.datetime.strptime('1991-04-09 00:53:28',"%Y-%m-%d %H:%M:%S")
+		# self.now=datetime.datetime.strptime('2017-04-28 00:53:28',"%Y-%m-%d %H:%M:%S")
 		self.todayDate=str(self.now.strftime('%Y-%m-%d'))
 		
 		# print type(self.settings['MY_EMAIL'])
