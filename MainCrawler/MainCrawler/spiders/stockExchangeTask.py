@@ -13,7 +13,7 @@ from MainCrawler.items import *
 class StockexchangetaskSpider(scrapy.Spider):
 
 	name = "stockExchangeTask"
-	updateDayNum = 4
+	updateDayNum = 3
 	# allowed_domains = ["sfds.com"]
 
 	def aboutMysql(self):
@@ -35,7 +35,7 @@ class StockexchangetaskSpider(scrapy.Spider):
 		self.aboutMysql()
 		self.now=datetime.datetime.now()
 		# 下面这条取消注释，相当于setting开始日期
-		# self.now=datetime.datetime.strptime('2017-04-28 00:53:28',"%Y-%m-%d %H:%M:%S")
+		# self.now=datetime.datetime.strptime('2017-05-26 00:53:28',"%Y-%m-%d %H:%M:%S")
 		self.todayDate=str(self.now.strftime('%Y-%m-%d'))
 		
 		# print type(self.settings['MY_EMAIL'])
@@ -194,29 +194,41 @@ class StockexchangetaskSpider(scrapy.Spider):
 		#GDP绝对值 单位(亿元)
 		gdpList={'gdp2016':744127,'gdp2015':676708,'gdp2014':635910,'gdp2013':588018.76,'gdp2012':534123.04,'gdp2011':473104.05,'gdp2010':401512.8,'gdp2009':340902.81,'gdp2008':314045.4,'gdp2007':265810.3,'gdp2006':216314.4,'gdp2005':184937.4,'gdp2004':159878.3,'gdp2003':135822.8,'gdp2002':120332.7,'gdp2001':109655.2,'gdp2000':99214.6,'gdp1999':89677.1,'gdp1998':84402.3,'gdp1997':78973,'gdp1996':71176.6,'gdp1995':60793.7,'gdp1994':48197.9,'gdp1993':35333.9,'gdp1992':26923.5,'gdp1991':21781.5}
 
-		self.myCursor.execute("SELECT * FROM stock_gdp_ratios WHERE `date`='"+self.todayDate+"'")
-		resultStockRecord=self.myCursor.fetchone()
+		# 最近几天的数据
+		self.myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data group by `date` order by date desc limit "+str(self.updateDayNum))
+		dayHistoricalDataList=self.myCursor.fetchall()
+
+		for dayHistoricalDataListKey in range(len(dayHistoricalDataList)):
+			# print(type(dayHistoricalDataListKey))
+			# print(str(dayHistoricalDataList[dayHistoricalDataListKey][0].strftime('%Y-%m-%d')))
+			currentDayStr=str(dayHistoricalDataList[dayHistoricalDataListKey][0].strftime('%Y-%m-%d'))
+			currentDay=dayHistoricalDataList[dayHistoricalDataListKey][0]
+
+			#get GDP
+			gdpListKey='gdp'+str(currentDay.year-1)
+			dayStockTotal=int(dayHistoricalDataList[dayHistoricalDataListKey][1])
+
+			GDPratios=dayStockTotal/(gdpList[gdpListKey]*100000000)
+			valueee=[currentDayStr,GDPratios]
+
+			if dayHistoricalDataListKey==0:
+				# 发邮件
+				mailer = MailSender.from_settings(self.settings)
+				title="证券化率："+str(GDPratios)
+				body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(dayHistoricalDataList[dayHistoricalDataListKey][1])+"元"
+
+				mailer.send(to=self.settings['SEND_TO_EMAIL'], subject=title, body=body,mimetype="text/html")
+
+			# update data
+			self.myCursor.execute("SELECT * FROM stock_gdp_ratios WHERE `date`='"+currentDayStr+"'")
+			resultStockRecord=self.myCursor.fetchone()
+			print (resultStockRecord)
+			
+			if resultStockRecord is None:
+				self.myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
+			else:
+				updateValue=[valueee[1],valueee[0]]
+				self.myCursor.execute("UPDATE `stock_gdp_ratios` SET  `ratios` = %s WHERE `date`=%s;",updateValue)
+
+
 		
-		self.myCursor.execute("SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data WHERE `date`='"+self.todayDate+"' group by `date`")
-		resultStockDay=self.myCursor.fetchone()
-		
-		if resultStockDay is None:
-			return
-
-		gdpListKey='gdp'+str(self.now.year-1)
-		dayStockTotal=int(resultStockDay[1])
-
-		GDPratios=dayStockTotal/(gdpList[gdpListKey]*100000000)
-		valueee=[self.todayDate,GDPratios]
-
-		if dayStockTotal<=0:
-			return
-		if resultStockRecord is None:
-			result=self.myCursor.execute("INSERT INTO `stock_gdp_ratios`(`date`,`ratios`) VALUES (%s,%s)",valueee)
-
-		# 发邮件
-		mailer = MailSender.from_settings(self.settings)
-		title="证券化率："+str(GDPratios)
-		body="证券化率："+str(GDPratios)+"<br/>"+"总市值："+str(resultStockDay[1])+"元"
-
-		mailer.send(to=self.settings['SEND_TO_EMAIL'], subject=title, body=body,mimetype="text/html")

@@ -1,4 +1,4 @@
-#!/bin/bash                                                                                                                                           
+#!/bin/sh                                                                                                                                           
 # 0 19 * * * cd /vagrant/code/ChinaStockCrawler/MainCrawler && /usr/local/bin/scrapy crawl stockExchangeTask
 # sed -i 's/\r//' script.sh
 

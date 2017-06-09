@@ -1,7 +1,10 @@
-import scrapy
+import symbol
 import sys
 
+import scrapy
 
+
+# import 
 class QuotesSpider(scrapy.Spider):
     name = "test1"
 
@@ -15,7 +18,7 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
         print('ffffffffff4444444ffffffffff')
-        dir(response)
+        # dir(response)
         # print(response.__dict__)
         response.__name__ 
         # page = response.url.split("/")
