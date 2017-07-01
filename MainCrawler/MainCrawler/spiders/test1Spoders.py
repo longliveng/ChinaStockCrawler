@@ -11,16 +11,14 @@ class QuotesSpider(scrapy.Spider):
     def start_requests(self):
         urls = [
             'http://quotes.toscrape.com/page/1/',
-            'http://quotes.toscrape.com/page/2/',
+            'http://quotes.toscrape.com/page/2/'
         ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         print('ffffffffff4444444ffffffffff')
         # dir(response)
         # print(response.__dict__)
-        response.__name__ 
+
         # page = response.url.split("/")
         # print(page)
         print('endddddd')
