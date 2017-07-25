@@ -38,7 +38,7 @@ class StockexchangetaskSpider(scrapy.Spider):
         self.todayDate = str(self.now.strftime('%Y-%m-%d'))
 
         # print type(self.settings['MY_EMAIL'])
-
+        
         resultUrl = []
 
         resultUrl = self.generateShanghai()
@@ -267,4 +267,5 @@ class StockexchangetaskSpider(scrapy.Spider):
                     to=self.settings['SEND_TO_EMAIL'],
                     subject=title,
                     body=body,
-                    mimetype="text/html")
+                    mimetype="text/html"
+                    )
