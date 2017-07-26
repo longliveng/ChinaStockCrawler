@@ -23,6 +23,6 @@ scrapy crawl stockExchangeTask
 
 ## tips
 
-https://github.com/scrapy/scrapy/issues/2473
-pip install Twisted==16.4.1
-scrapy 1.4下的 Twisted17 有问题
+https://github.com/scrapy/scrapy/issues/2473  
+pip install Twisted==16.4.1  
+scrapy 1.4下的 Twisted17 有问题  
