@@ -228,7 +228,7 @@ class StockexchangetaskSpider(scrapy.Spider):
     def closed(self, reason):
         # GDP绝对值 单位(亿元)
         gdpList = {
-            'gdp2017': 754127,
+            'gdp2017': 827122,
             'gdp2016': 744127,
             'gdp2015': 676708,
             'gdp2014': 635910,
