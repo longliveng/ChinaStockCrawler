@@ -14,12 +14,7 @@ from MainCrawler.items import *
 class StockexchangetaskSpider(scrapy.Spider):
 
     name = "stockExchangeTask"
-<<<<<<< HEAD
     updateDayNum = 8
-=======
-    updateDayNum = 3
-
->>>>>>> fd36a62d288fa60c7a7fef2d27462ec178356b50
     # allowed_domains = ["sfds.com"]
 
     def aboutMysql(self):
@@ -29,12 +24,8 @@ class StockexchangetaskSpider(scrapy.Spider):
             user='root',
             passwd='cyhcyh',
             port=3306,
-<<<<<<< HEAD
             charset='utf8'
         )
-=======
-            charset='utf8')
->>>>>>> fd36a62d288fa60c7a7fef2d27462ec178356b50
 
     # https://doc.scrapy.org/en/1.3/intro/tutorial.html#using-spider-arguments
     # scrapy crawl quotes -o quotes-humor.json -a tag=humor
@@ -178,12 +169,8 @@ class StockexchangetaskSpider(scrapy.Spider):
         else:
             resDict['result'][2]['marketValue1'] = float(
                 resDict['result'][2]['marketValue1'])
-<<<<<<< HEAD
-            resDict['result'][2]['marketValue1'] = resDict['result'][2]['marketValue1'] * 100000000
-=======
             resDict['result'][2]['marketValue1'] = resDict['result'][2][
                 'marketValue1'] * 100000000
->>>>>>> fd36a62d288fa60c7a7fef2d27462ec178356b50
 
         currentStamp = str(int(time.time()))
 
@@ -275,7 +262,7 @@ class StockexchangetaskSpider(scrapy.Spider):
             'gdp1992': 26923.5,
             'gdp1991': 21781.5
         }
-        
+
         # 最近几天的数据
         self.myCursor.execute(
             "SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data group by `date` order by date desc limit "
