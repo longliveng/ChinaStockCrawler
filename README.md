@@ -20,3 +20,9 @@ scrapy crawl stockExchangeTask
 
 ##about doc
 一些数据对照，以后可以拿到buckup里的数据。。
+
+## tips
+
+https://github.com/scrapy/scrapy/issues/2473  
+pip install Twisted==16.4.1  
+scrapy 1.4下的 Twisted17 有问题  
