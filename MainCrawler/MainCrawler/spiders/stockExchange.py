@@ -165,7 +165,7 @@ class StockexchangeSpider(scrapy.Spider):
 		currDate = str(currDate[0])
 		resultMarketValue=response.xpath(u"//td[.='股票总市值（元）']/../td[2]/text()").extract()
 		
-		print '~~~~~~~~~~today is '+currDate
+		print('~~~~~~~~~~today is '+currDate)
 		
 		if resultMarketValue==[]:
 			resultMarketValue=0

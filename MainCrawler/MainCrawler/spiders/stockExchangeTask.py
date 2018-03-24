@@ -14,7 +14,7 @@ from MainCrawler.items import *
 class StockexchangetaskSpider(scrapy.Spider):
 
     name = "stockExchangeTask"
-    updateDayNum = 3
+    updateDayNum = 8
     # allowed_domains = ["sfds.com"]
 
     def aboutMysql(self):
@@ -24,7 +24,8 @@ class StockexchangetaskSpider(scrapy.Spider):
             user='root',
             passwd='cyhcyh',
             port=3306,
-            charset='utf8' )
+            charset='utf8'
+        )
 
     # https://doc.scrapy.org/en/1.3/intro/tutorial.html#using-spider-arguments
     # scrapy crawl quotes -o quotes-humor.json -a tag=humor
@@ -74,7 +75,8 @@ class StockexchangetaskSpider(scrapy.Spider):
 
             if resultStock is None:
                 #没数据
-                urlShanghai = 'http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate=' + whereDate + '&prodType=gp&_=1485967505892'
+                urlShanghai = 'http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate=' + \
+                    whereDate + '&prodType=gp&_=1485967505892'
                 # urlShanghai='http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate='+'2017-01-26'+'&prodType=gp&_=1485967505892'
                 # TODO 请求错误处理
                 responsesss = scrapy.Request(
@@ -147,29 +149,34 @@ class StockexchangetaskSpider(scrapy.Spider):
 
         return resultUrl
 
-    def indexDayParseShanghai(self,response):
+    def indexDayParseShanghai(self, response):
         print('-----------------indexDayParseShanghai------------------------')
         # resultItem=IndexDayItem()
 
         # print response.meta['isFirst']
         # exit()
-        resJson=str(response.text[19:-1])
-        resDict=json.loads(resJson)
+        resJson = str(response.text[19:-1])
+        resDict = json.loads(resJson)
 
-        print '~~~~~~~~~~today is '+str(resDict['searchDate'])
+        print('~~~~~~~~~~today is ' + str(resDict['searchDate']))
 
-        if resDict['result'][2]['marketValue1']=='':
+        if resDict['result'][2]['marketValue1'] == '':
             return
         else:
-            resDict['result'][2]['marketValue1']=float(resDict['result'][2]['marketValue1'])
-            resDict['result'][2]['marketValue1']=resDict['result'][2]['marketValue1']*100000000
+            resDict['result'][2]['marketValue1'] = float(
+                resDict['result'][2]['marketValue1'])
+            resDict['result'][2]['marketValue1'] = resDict['result'][2]['marketValue1'] * 100000000
 
-        currentStamp=str(int(time.time()))
+        currentStamp = str(int(time.time()))
 
         if response.meta['isFirst']:
-            blablaSql="INSERT INTO `index_day_historical_data`(`total_value`,`backup`,`type`,`date`,`update_time`)VALUES("+str(resDict['result'][2]['marketValue1'])+",'"+str(resJson)+"','000001','"+str(resDict['searchDate'])+"','"+currentStamp+"');"
+            blablaSql = "INSERT INTO `index_day_historical_data`(`total_value`,`backup`,`type`,`date`,`update_time`)VALUES(" + str(
+                resDict['result'][2]['marketValue1']) + ",'" + str(resJson) + "','000001','" + str(resDict['searchDate']) + "','" + currentStamp + "');"
         else:
-            blablaSql="UPDATE `index_day_historical_data` SET `total_value` = "+str(resDict['result'][2]['marketValue1'])+",`backup` = '"+resJson+"',`update_time` = "+currentStamp+" WHERE `type` = 000001 and `date`='"+str(resDict['searchDate'])+"';"
+            blablaSql = "UPDATE `index_day_historical_data` SET `total_value` = " + \
+                str(resDict['result'][2]['marketValue1']) + ",`backup` = '" + resJson + "',`update_time` = " + \
+                currentStamp + " WHERE `type` = 000001 and `date`='" + \
+                str(resDict['searchDate']) + "';"
         # print blablaSql
         # exit()
         self.myCursor.execute(blablaSql)
@@ -189,7 +196,7 @@ class StockexchangetaskSpider(scrapy.Spider):
         resultMarketValue = response.xpath(
             u"//td[.='股票总市值（元）']/../td[2]/text()").extract()
 
-        print '~~~~~~~~~~today is ' + currDate
+        print('~~~~~~~~~~today is ' + currDate)
 
         if resultMarketValue == []:
             return
@@ -218,7 +225,8 @@ class StockexchangetaskSpider(scrapy.Spider):
 
     def closed(self, reason):
         # GDP绝对值 单位(亿元)
-        gdpList={'gdp2016':744127,'gdp2015':676708,'gdp2014':635910,'gdp2013':588018.76,'gdp2012':534123.04,'gdp2011':473104.05,'gdp2010':401512.8,'gdp2009':340902.81,'gdp2008':314045.4,'gdp2007':265810.3,'gdp2006':216314.4,'gdp2005':184937.4,'gdp2004':159878.3,'gdp2003':135822.8,'gdp2002':120332.7,'gdp2001':109655.2,'gdp2000':99214.6,'gdp1999':89677.1,'gdp1998':84402.3,'gdp1997':78973,'gdp1996':71176.6,'gdp1995':60793.7,'gdp1994':48197.9,'gdp1993':35333.9,'gdp1992':26923.5,'gdp1991':21781.5}
+        gdpList = {'gdp2016': 744127, 'gdp2015': 676708, 'gdp2014': 635910, 'gdp2013': 588018.76, 'gdp2012': 534123.04, 'gdp2011': 473104.05, 'gdp2010': 401512.8, 'gdp2009': 340902.81, 'gdp2008': 314045.4, 'gdp2007': 265810.3, 'gdp2006': 216314.4, 'gdp2005': 184937.4, 'gdp2004': 159878.3,
+                   'gdp2003': 135822.8, 'gdp2002': 120332.7, 'gdp2001': 109655.2, 'gdp2000': 99214.6, 'gdp1999': 89677.1, 'gdp1998': 84402.3, 'gdp1997': 78973, 'gdp1996': 71176.6, 'gdp1995': 60793.7, 'gdp1994': 48197.9, 'gdp1993': 35333.9, 'gdp1992': 26923.5, 'gdp1991': 21781.5}
 
         # 最近几天的数据
         self.myCursor.execute(
