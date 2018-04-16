@@ -1,37 +1,43 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
 from scrapy.mail import MailSender
 import scrapy
-# import sys
 import time
 import datetime
-import MySQLdb
+import pymysql.cursors
 import json
 
-from MainCrawler.items import *
+# from MainCrawler.items import *
 
 
 class StockexchangetaskSpider(scrapy.Spider):
 
     name = "stockExchangeTask"
-    updateDayNum = 8
+    updateDayNum = 4
     # allowed_domains = ["sfds.com"]
 
-    def aboutMysql(self):
-        self.dbpool = MySQLdb.connect(
-            host='127.0.0.1',
-            db='stock_data',
-            user='root',
-            passwd='cyhcyh',
-            port=3306,
-            charset='utf8'
-        )
+    def __init__(self, *args, **kwargs):
+        super(StockexchangetaskSpider, self).__init__(*args, **kwargs)
+        if self.updateDayNum <= 1:
+            exit()
 
-    # https://doc.scrapy.org/en/1.3/intro/tutorial.html#using-spider-arguments
-    # scrapy crawl quotes -o quotes-humor.json -a tag=humor
+        self.aboutMysql()
+
+    def aboutMysql(self):
+        # Connect to the database
+        self.dbCon = pymysql.connect(
+            host='127.0.0.1',
+            user='root',
+            password='cyhcyh',
+            db='stock_data',
+            charset='utf8',
+            cursorclass=pymysql.cursors.DictCursor)
+
+        self.myCursor = self.dbCon.cursor()
+
     def start_requests(self):
         # urlShanghai = 'http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate=2017-01-26&prodType=gp&_=1485967505892'
         # urlShenzhen = 'http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.4397416552090172'
+
         self.aboutMysql()
         self.now = datetime.datetime.now()
         # 下面这条取消注释，相当于setting开始日期
@@ -59,8 +65,6 @@ class StockexchangetaskSpider(scrapy.Spider):
         }
         resultUrl = []
 
-        self.myCursor = self.dbpool.cursor()
-
         print('-----------shanghai---------------')
         for dayKey in range(self.updateDayNum):
             gapDay = int(-dayKey)
@@ -68,28 +72,30 @@ class StockexchangetaskSpider(scrapy.Spider):
             whereDate = str(whereDate.strftime('%Y-%m-%d'))
 
             self.myCursor.execute(
-                'SELECT * FROM index_day_historical_data WHERE `type` = 000001 and `date`="'
+                'SELECT `date`,`total_value` FROM index_day_historical_data WHERE `type` = 000001 and `date`="'
                 + whereDate + '"')
-            # update_time resultStock[stocklistkey][14],total_value resultStock[stocklistkey][12]
+
             resultStock = self.myCursor.fetchone()
 
             if resultStock is None:
-                #没数据
+                # 没数据
                 urlShanghai = 'http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate=' + \
                     whereDate + '&prodType=gp&_=1485967505892'
-                # urlShanghai='http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate='+'2017-01-26'+'&prodType=gp&_=1485967505892'
-                # TODO 请求错误处理
+
                 responsesss = scrapy.Request(
                     url=urlShanghai,
                     callback=self.indexDayParseShanghai,
                     headers=shanghaiHeaders)
                 responsesss.meta['isFirst'] = True
             else:
-                #有数据
+                # 有数据
+                # print('ffffffffffffffffff')
+                # print(whereDate)
+                # print(resultStock)
+                # exit()
                 urlShanghai = 'http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate=' + str(
-                    resultStock[2]) + '&prodType=gp&_=1485967505892'
-                # urlShanghai='http://query.sse.com.cn/marketdata/tradedata/queryTradingByProdTypeData.do?jsonCallBack=jsonpCallback63703&searchDate='+'2017-01-26'+'&prodType=gp&_=1485967505892'
-                # TODO 请求错误处理
+                    resultStock['date']) + '&prodType=gp&_=1485967505892'
+
                 responsesss = scrapy.Request(
                     url=urlShanghai,
                     callback=self.indexDayParseShanghai,
@@ -112,19 +118,16 @@ class StockexchangetaskSpider(scrapy.Spider):
         }
         resultUrl = []
 
-        self.myCursor = self.dbpool.cursor()
-
         print('-----------shenzhen---------------')
         for dayKey in range(self.updateDayNum):
             gapDay = int(-dayKey)
             whereDate = self.now + datetime.timedelta(days=gapDay)
             whereDate = str(whereDate.strftime('%Y-%m-%d'))
             # whereDate='2015-06-05'
-            #
+
             self.myCursor.execute(
                 'SELECT * FROM index_day_historical_data WHERE `type` = 399001 and `date`="'
                 + whereDate + '"')
-            # update_time resultStock[stocklistkey][14],total_value resultStock[stocklistkey][12]
             resultStock = self.myCursor.fetchone()
 
             urlShenzhen = 'http://www.szse.cn/szseWeb/FrontController.szse?randnum=0.5798621223025'
@@ -151,18 +154,11 @@ class StockexchangetaskSpider(scrapy.Spider):
 
     def indexDayParseShanghai(self, response):
         print('-----------------indexDayParseShanghai------------------------')
-        # resultItem=IndexDayItem()
 
-        # print response.meta['isFirst']
-        # exit()
-        resJson = str(response.text[19:-1])
+        resJson = response.text[19:-1]
         resDict = json.loads(resJson)
 
-<<<<<<< HEAD
         print('~~~~~~~~~~today is ' + str(resDict['searchDate']))
-=======
-        print '~~~~~~~~~~today is ' + str(resDict['searchDate'])
->>>>>>> fd36a62d288fa60c7a7fef2d27462ec178356b50
 
         if resDict['result'][2]['marketValue1'] == '':
             return
@@ -187,12 +183,12 @@ class StockexchangetaskSpider(scrapy.Spider):
         # print blablaSql
         # exit()
         self.myCursor.execute(blablaSql)
+        self.dbCon.commit()
 
     def indexDayParseShenzhen(self, response):
         print(
             '-----------------indexDayParseShenzhen--!!------------------------'
         )
-        # old
         # currDate = response.xpath('//input[@id="1804_gid_tab1_con_txtDate"]/@value').extract()
         # currDate = str(currDate[0])
         # resultMarketValue=response.xpath('//table[@id="REPORTID_tab1"]/tr[2]/td[6]/text()').extract()
@@ -229,6 +225,7 @@ class StockexchangetaskSpider(scrapy.Spider):
         # print blablaSql
         # exit()
         self.myCursor.execute(blablaSql)
+        self.dbCon.commit()
 
     def closed(self, reason):
         # GDP绝对值 单位(亿元)
@@ -268,18 +265,17 @@ class StockexchangetaskSpider(scrapy.Spider):
             "SELECT `date`,sum(`total_value`) AS total_value2 FROM index_day_historical_data group by `date` order by date desc limit "
             + str(self.updateDayNum))
         dayHistoricalDataList = self.myCursor.fetchall()
-
+        # print(dayHistoricalDataList)
+        # print(self.updateDayNum)
+        # exit()
         for dayHistoricalDataListKey in range(len(dayHistoricalDataList)):
-            # print(type(dayHistoricalDataListKey))
-            # print(str(dayHistoricalDataList[dayHistoricalDataListKey][0].strftime('%Y-%m-%d')))
-            currentDayStr = str(dayHistoricalDataList[dayHistoricalDataListKey]
-                                [0].strftime('%Y-%m-%d'))
-            currentDay = dayHistoricalDataList[dayHistoricalDataListKey][0]
+            currentDay = dayHistoricalDataList[dayHistoricalDataListKey]['date']
+            currentDayStr = str(currentDay.strftime('%Y-%m-%d'))
 
-            #get GDP
+            # get GDP
             gdpListKey = 'gdp' + str(currentDay.year - 1)
             dayStockTotal = int(
-                dayHistoricalDataList[dayHistoricalDataListKey][1])
+                dayHistoricalDataList[dayHistoricalDataListKey]['total_value2'])
 
             GDPratios = dayStockTotal / (gdpList[gdpListKey] * 100000000)
             valueee = [currentDayStr, GDPratios]
@@ -300,13 +296,14 @@ class StockexchangetaskSpider(scrapy.Spider):
                     "UPDATE `stock_gdp_ratios` SET  `ratios` = %s WHERE `date`=%s;",
                     updateValue)
 
+            self.dbCon.commit()
+
             if dayHistoricalDataListKey == 0 and resultStockRecord is None:
                 # 发邮件
                 mailer = MailSender.from_settings(self.settings)
                 title = "证券化率：" + str(GDPratios)
                 body = "证券化率：" + str(GDPratios) + "<br/>" + "总市值：" + str(
-                    dayHistoricalDataList[dayHistoricalDataListKey]
-                    [1]) + "元  <br/>当前日期: " + currentDayStr
+                    dayStockTotal) + "元  <br/>当前日期: " + currentDayStr
                 mailer.send(
                     to=self.settings['SEND_TO_EMAIL'],
                     subject=title,

@@ -4,5 +4,5 @@
 # your spiders.
 
 import sys
-reload(sys)
-sys.setdefaultencoding( "utf-8" )
+import imp
+imp.reload(sys)
