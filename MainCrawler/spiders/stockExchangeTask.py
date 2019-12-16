@@ -278,3 +278,7 @@ class StockexchangetaskSpider(scrapy.Spider):
                     subject=title,
                     body=body,
                     mimetype="text/html")
+
+
+print(self.settings['MAIL_FROM'])
+exit()
