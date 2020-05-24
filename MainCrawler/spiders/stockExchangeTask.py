@@ -114,7 +114,7 @@ class StockexchangetaskSpider(scrapy.Spider):
                 + whereDate + '"')
             resultStock = self.myCursor.fetchone()
 
-            urlShenzhen = 'http://www.szse.cn/api/report/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1803&TABKEY=tab1&&randnum=0.9594345119772221&txtQueryDate=' + whereDate
+            urlShenzhen = 'http://www.szse.cn/api/report/ShowReport/data?SHOWTYPE=JSON&CATALOGID=1803&TABKEY=tab1&&randnum=0.5798621223025&txtQueryDate=' + whereDate
             if resultStock is None:
                 # 没数据
                 responsesss = scrapy.FormRequest(
@@ -278,3 +278,7 @@ class StockexchangetaskSpider(scrapy.Spider):
                     subject=title,
                     body=body,
                     mimetype="text/html")
+
+
+print(self.settings['MAIL_FROM'])
+exit()
